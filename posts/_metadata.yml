@@ -2,12 +2,12 @@ author:
   - id: cvc
     number: 1
     name:
-      given: Chris
-      family: Csefalvay
-      literal: Chris von Csefalvay
-      non-dropping-particle: von
-    orcid: 0000-0003-3131-0864
-    email: chris@chrisvoncsefalvay.com
+      given: Rafael 
+      family: Navarro
+      literal: Rafael F. Navarro
+      non-dropping-particle: F.
+    orcid: 0000-0000-0000-000-
+    email: rafonavarro@gmail.com
 format:
   html:
     df-print: paged

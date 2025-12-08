@@ -23,64 +23,6 @@ comments: false
 
 ## Bio
 
-I am an Applied Statistician specializing in Bayesian modeling and Time Series, with a strong focus on computational implementation and solving algorithmic challenges. Currently, I’m writing Contrapunto Estadístico, a Spanish Bayesian coursebook peppered with musical references (which I swear are funny).
-
-2
-
-<!-- 
-I attended the University of Oxford for my undergraduate studies, graduating with a distinction (1st class), and returned there for my graduate studies. I also hold degrees from Cardiff and Robert Gordon University Aberdeen, and have studied at the University of Leiden under an Erasmus programme. Today, I am board certified in public health, a Fellow of the Royal Society for Public Health and a member of several other learned societies. I have also been elected a Senior Member of IEEE, where I am a member of the EMBS Technical Committee on Standards and the EMBS Technical Committee on Biomedical and Health Informatics.
-
-I am currently a Principal at HCLTech for Clinical Intelligence and AI, where I advise the world's leading life sciences, medical devices and pharma companies on leveraging AI to improve their products and serve their customers better. I am also a visiting thesis supervisor for students on the data science track of the mathematics programme at the Budapest University of Technology and Economics. Depending on whom you ask, I have been accused of having invented agentic AI -- this is not entirely true, as the concept is much older (Norvig and Russell used it in 1995), but my description of what eventually became agentic AI is one of the earliest ones.
-
-As part of my service to the profession, I've been a reviewer for JOSS, Frontiers in Immunology and Frontiers in Medicine. Between 2022 and 2023, I served Virginia as a member of the Medical Reserve Corps, and currently serve in both the Rocky Mountain MRC of Denver and Colorado's radiation response MRC. I was also part of the COVID-19 Healthcare Coalition and the Covid Tracking Project.
-
-You can find a list of my publications here. My work on COVID-19 has been featured in the media. I also write on various topics as the fancy strikes -- you can peruse my notebook here.
-
-## Key research interests
-
-* **AI**: verifiable agentic systems, signature embedding, complex autonomy/large agentic networks, emergence, SLMs, self-healing agrntic architectures
-* **Computational epidemiology**: agent-based modelling, disease-avoidant behaviours, epidemics over dynamic networks, geospatial computational epidemiology
-* **Pharmacovigilance**: VAERS, passive reporting, text mining of large complex report sets using LLMs
-* **Computational dynamics**: computational dynamics of complex systems, computational dynamics of infectious diseases, computational dynamics of social systems
-* **Public health**: evidence-based public health policy, public health ethics, public health law, quality and systems improvement in public health
--->
-
-<!-- ## Teaching
-
-I am a visiting thesis supervisor for students on the data science track of the mathematics programme at the [Budapest University of Technology and Economics](https://www.bme.hu/?language=en) - you can read more about this [here](teaching).
-
-From time to time, I get invited to give talks and lectures. My capacity for this is somewhat limited due to other commitments, but if you are interested in having me speak at your event, please [get in touch](mailto:chris+website@chrisvoncsefalvay.com).
-
-## Selected papers
-
-**Tocilizumab in addition to standard of care in the management of COVID-19: A meta-analysis of RCTs.** Mutua V, Henry BM, **von Csefalvay, C**, Cheruiyot I, Vikse J, Lippi G, Bundi B, Mong'are N. _Acta Biomed._ 2022, 93(1):e2022014. [doi: 10.23750/abm.v93i1.12208](https://doi.org/10.23750/abm.v93i1.12208).
-
-**JAMPI: Efficient matrix multiplication in Spark using barrier execution mode.** Foldi T, **von Csefalvay C**, Perez NA. _BDCC_ 2020, 4(4):32. [doi: 10.3390/bdcc4040032](https://doi.org/10.3390/bdcc4040032).
-
-**VAERS data reveals no increased risk of neuroautoimmune adverse events from COVID- vaccines.** **von Csefalvay, C.** _medRxiv_ 2021. [doi: 10.1101/2021.06.13.21258851](https://doi.org/10.1101/2021.06.13.21258851).
-
-**Tuberculous polyserositis in endemic areas with an emphasis on empiric therapy: A case report.** Munguti J, Mutua V, Cheruiyot I, **von Csefalvay C**, Opare-Addo P, Kiko N, Wanjiru R. _Medicine: Case Reports_. 2022, 3(4):e0221. [doi: 10.1097/MD9.0000000000000221](https://doi.org/10.1097/MD9.0000000000000221).
-
-See more [here](papers). -->
-
-<!-- ## Professional affiliations
-
-**[The OR Society](https://www.theorsociety.com/)** | Member since 2020
-
-**[Royal Society for Public Health](https://www.rsph.org.uk/)** | Fellow since 2021
-
-**[TOPRA](https://www.topra.org/)** | Registered Member since 2021
-
-**[American Public Health Association](https://www.apha.org/)** | Member since 2021
-
-**[IEEE](https://ieee.org)** | Senior Member since 2024 -->
+I am an Applied Statistician specializing in Bayesian modeling and Time Series, with a strong focus on computational implementation and solving algorithmic challenges. Currently, I’m writing *Contrapunto Estadístico: Un curso de métodos bayesianos utilizando R y Stan*, a Spanish statistics coursebook peppered with musical references (which I swear are funny).
 
 
-<!-- ## Personal life
-
-I live in Denver, CO, with my Golden Retriever, Oliver. Born in Budapest, Hungary, I've spent my formative years in England, but have called the Netherlands, Germany, Belgium, Austria and the United States home at various points in my life. Since 2020, I've been living in the United States, where I am a permanent resident.
-
-In my free time, I enjoy reading (mostly Cold War history and classical Greek drama), cooking (with not a lot of success) and Renaissance polyphony (esp. Thomas Tallis and Orlando di Lasso). I'm credited for a somewhat pretty sequence of integers called Jellyfish Heart numbers ([OEIS A344856](https://oeis.org/A344856)), which I discovered in 2020 while doing something that has nothing at all to do with my day job.
-
-I live with [neuromyelitis optica](https://en.wikipedia.org/wiki/Neuromyelitis_optica) since 2015, which has left me with a lifelong desire to understand complex, multicausal health conditions like NMOSD better.
--->

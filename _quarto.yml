@@ -1,12 +1,8 @@
 project:
   type: website
-  output-dir: docs   # <--- AGREGA ESTA LÍNEA
-resources:
-  - CNAME
-
+  output-dir: docs 
+  
 website:
-#  twitter-card: false   # <--- Ponlo en false
-#  open-graph: false     # <--- Ponlo en false
   title: "Rafael F. Navarro"
   description: "Rafael is a computational applied statistician working on Bayesian modeling"
   navbar:
@@ -17,10 +13,6 @@ website:
         text: Papers
       - href: teaching
         text: Teaching
-      - href: media
-        text: Media
-      - href: talks
-        text: Talks
 
   page-footer:
     left: "(c) Rafael F. Navarro, 2025–. [Disclaimer](disclaimer)"
