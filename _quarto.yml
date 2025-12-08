@@ -10,8 +10,8 @@ resources:
   - CNAME
 
 website:
-  title: "Chris von Csefalvay"
-  description: "Chris von Csefalvay is a computational epidemiologist/data scientist working at the intersection of AI, epidemiology and public health."
+  title: "Rafael F. Navarro"
+  description: "Rafael is a computational applied statistician working on Bayesian modeling"
   navbar:
     left:
       - href: index.qmd
@@ -26,10 +26,10 @@ website:
         text: The Notebook
       - href: talks
         text: Talks
-      - href: https://computationalinfectiousdisease.com
-        text: My book
+      #- href: https://computationalinfectiousdisease.com
+      #  text: My book
   page-footer:
-    left: "(c) Chris von Csefalvay, 2011–. [Disclaimer](disclaimer)"
+    left: "(c) Rafael F. Navarro, 2025–. [Disclaimer](disclaimer)"
   twitter-card: true
   open-graph: true
   google-analytics: "395640625"
