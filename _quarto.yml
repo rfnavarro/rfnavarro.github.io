@@ -1,5 +1,6 @@
 project:
   type: website
+  output-dir: docs   # <--- AGREGA ESTA LÍNEA
   pre-render:
     - scripts/pre_create_papers_file.py
     # - scripts/pre_check_skierg_records.py

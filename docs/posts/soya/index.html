@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-GB" xml:lang="en-GB"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.31">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Chris von Csefalvay">
+<meta name="dcterms.date" content="2025-10-19">
+<meta name="description" content="All benchmarks are wrong – and if you want some that are useful, you might need to build your own.">
+
+<title>SOYA - the only benchmark that matters – Chris von Csefalvay</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-30950e57ca2d683c179b59b95dd53cbb.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=395640625"></script>
+
+<script type="text/javascript">
+
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', '395640625', { 'anonymize_ip': true});
+</script>
+<script type="application/ld+json">{"@context":"http://www.schema.org","@type":"person","name":"Chris von Csefalvay","jobTitle":"Director of Biomedical AI/ML","height":"74 inches","gender":"male","description":"Chris von Csefalvay is a computational epidemiologist and data scientist working at the intersection of AI/ML, computational dynamics and public health. He is the author of Computational Modeling of Infectious Disease and a number of research papers.","url":"https://chrisvoncsefalvay.com","image":"https://chrisvoncsefalvay.com/img/IMG_5986.jpeg","address":{"@type":"PostalAddress","addressLocality":"Denver","addressRegion":"CO","postalCode":"80204","addressCountry":"United States"},"alumniOf":[{"@type":"CollegeOrUniversity","name":"University of Oxford","sameAs":"https://en.wikipedia.org/wiki/University_of_Oxford"},{"@type":"CollegeOrUniversity","name":"Cardiff University","sameAs":"https://en.wikipedia.org/wiki/Cardiff_University"}],"worksFor":[{"@type":"Organization","name":"HCLTech"}],"birthDate":"1986-07-15","birthPlace":"Budapest, Hungary","memberOf":[{"@type":"Organization","name":"Royal Society for Public Health"},{"@type":"Organization","name":"TOPRA"},{"@type":"Organization","name":"IEEE"}],"nationality":[{"@type":"Country","name":"United Kingdom"},{"@type":"Country","name":"Hungary"}]}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<meta property="og:title" content="SOYA - the only benchmark that matters – Chris von Csefalvay">
+<meta property="og:description" content="All benchmarks are wrong – and if you want some that are useful, you might need to build your own.">
+<meta property="og:image" content="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg==">
+<meta property="og:site_name" content="Chris von Csefalvay">
+<meta name="twitter:title" content="SOYA - the only benchmark that matters – Chris von Csefalvay">
+<meta name="twitter:description" content="All benchmarks are wrong – and if you want some that are useful, you might need to build your own.">
+<meta name="twitter:image" content="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg==">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="citation_title" content="SOYA - the only benchmark that matters">
+<meta name="citation_author" content="Chris von Csefalvay">
+<meta name="citation_publication_date" content="2025-10-19">
+<meta name="citation_cover_date" content="2025-10-19">
+<meta name="citation_year" content="2025">
+<meta name="citation_online_date" content="2025-10-19">
+<meta name="citation_doi" content="10.59350/xqf22-csp59">
+<meta name="citation_language" content="en-GB">
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Chris von Csefalvay</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../papers"> 
+<span class="menu-text">Papers</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../teaching"> 
+<span class="menu-text">Teaching</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../media"> 
+<span class="menu-text">Media</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../posts"> 
+<span class="menu-text">The Notebook</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../talks"> 
+<span class="menu-text">Talks</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://computationalinfectiousdisease.com"> 
+<span class="menu-text">My book</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#the-benchmark-industrial-complex" id="toc-the-benchmark-industrial-complex" class="nav-link active" data-scroll-target="#the-benchmark-industrial-complex">The benchmark-industrial complex</a></li>
+  <li><a href="#soya-your-benchmark-your-way" id="toc-soya-your-benchmark-your-way" class="nav-link" data-scroll-target="#soya-your-benchmark-your-way">SOYA: your benchmark, your way</a>
+  <ul class="collapse">
+  <li><a href="#the-democratisation-of-evals" id="toc-the-democratisation-of-evals" class="nav-link" data-scroll-target="#the-democratisation-of-evals">The democratisation of evals</a></li>
+  </ul></li>
+  <li><a href="#the-soya-mindset-in-practice" id="toc-the-soya-mindset-in-practice" class="nav-link" data-scroll-target="#the-soya-mindset-in-practice">The SOYA mindset in practice</a></li>
+  <li><a href="#some-inconvenient-truths" id="toc-some-inconvenient-truths" class="nav-link" data-scroll-target="#some-inconvenient-truths">Some inconvenient truths</a></li>
+  <li><a href="#how-not-to-suck" id="toc-how-not-to-suck" class="nav-link" data-scroll-target="#how-not-to-suck">How not to suck</a></li>
+  <li><a href="#epilogue" id="toc-epilogue" class="nav-link" data-scroll-target="#epilogue">Epilogue</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content page-columns page-full" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">SOYA - the only benchmark that matters</h1>
+  <div class="quarto-categories">
+    <div class="quarto-category">LLMs</div>
+    <div class="quarto-category">AI</div>
+    <div class="quarto-category">evals</div>
+  </div>
+  </div>
+
+<div>
+  <div class="description">
+    All benchmarks are wrong – and if you want some that are useful, you might need to build your own.
+  </div>
+</div>
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Chris von Csefalvay <a href="mailto:chris@chrisvoncsefalvay.com" class="quarto-title-author-email"><i class="bi bi-envelope"></i></a> <a href="https://orcid.org/0000-0003-3131-0864" class="quarto-title-author-orcid"> <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg=="></a></p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">19 October 2025</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>In 1790, the French Academy of Sciences commissioned a rather ambitious survey. The goal was to measure the distance from the North Pole to the Equator along the meridian passing through Paris, then use that measurement to define a new universal unit of length: the metre. The idea was simple enough: let’s create a standard so objective, so rooted in natural law, that every nation would adopt it. One ten-millionth of the distance from pole to equator. Perfect. Universal. The platonic ideal of measurement.</p>
+<p>There was just one problem. The measurement was wrong. Not catastrophically wrong, mind you, but wrong enough that when better instruments came along, we discovered the original metre was about 0.2mm off. By then, however, the French had made rather a lot of metre sticks, and redoing them all seemed like rather more trouble than it was worth.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> So we kept the stick and quietly forgot about the pole-to-equator business. The metre became defined not by nature’s grand design, but by a specific physical artefact in a vault in Sevres. Later, we’d define it by the speed of light, which at least has the virtue of being constant, even if it’s rather less poetic than the original vision.</p>
+<div class="no-row-height column-margin column-container"><div id="fn1"><p><sup>1</sup>&nbsp;Also, this was basically on the heels of the French Revolution. You can disagree about weights and measures, but you’re much less likely to want to do so vis-a-vis a government that has just discovered its love of the guillotine.</p></div></div><p>I’m reminded of the story of the metre because it nicely illustrates a key point about benchmarks: all benchmarks are wrong. They are simplifications, abstractions, approximations of reality. They can be useful, but they can never capture the full complexity of the systems they aim to measure. And that’s okay if all you need to resolve is the coordination problem of “how long is this thing?” – but it doesn’t say anything beyond the relative ratio between what you’re looking at and that specific standard. Least of all does it reveal anything meaningful about the underlying object.</p>
+<section id="the-benchmark-industrial-complex" class="level2">
+<h2 class="anchored" data-anchor-id="the-benchmark-industrial-complex">The benchmark-industrial complex</h2>
+<p>We have built an entire industry around the idea that there exists some universal measure of language model capability, some objective standard against which all models can be compared. MMLU, GSM8K, HumanEval, HellaSwag – the list grows longer every month, each benchmark claiming to capture some essential truth about model performance. Companies trumpet their SOTA results. Researchers optimise specifically for these benchmarks. VCs make investment decisions based on leaderboard positions. And on and on it goes in a self-reinforcing cycle.</p>
+<p>And just like the original metre, these benchmarks are increasingly recognised as both arbitrary and, well, wrong.</p>
+<p>The rot has been apparent for a while now. Traditional static benchmarks suffer from saturation, as models quickly reach performance ceilings, and contamination, where test data leaks into training sets, inflating scores. When GPT-4 can score 86.4% on MMLU, and the next model scores 87.2%, are we measuring genuine improvement or noise? When models are trained on datasets that may contain variations of the test questions, are we measuring capability or memorisation?</p>
+<p>There’s a deeper problem here, though. LLMs can be used for a shocking range of tasks, from generating code to clicking the right button on your GUI. Benchmarks necessarily have a value judgment inherent in their task set – and that includes massive multi-task sets like MMLU or agentic multi-objective evals like GAIA or <span class="math inline">\(\tau\)</span>-bench. No choice, too, is a kind of choice: when we use a benchmark smorgasboard of tasks or domain questions, we are implicitly setting the expectation of a Renaissance model that can do everything somewhat well. Simply put – there’s no such thing as an agnostic, universal eval.</p>
+</section>
+<section id="soya-your-benchmark-your-way" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="soya-your-benchmark-your-way">SOYA: your benchmark, your way</h2>
+<p>Earlier this year, Huggingface released YourBench, a framework that addresses these limitations by enabling dynamic, automated generation of reliable, up-to-date and domain-tailored benchmarks directly from user-provided documents.<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> There’s a beautiful symmetry here – just as we’re reaching the level of specialisation of language models that necessitates task-specific evals, we also are starting to have the tools that can provide this on a budget and at scale.</p>
+<div class="no-row-height column-margin column-container"><div id="fn2"><p><sup>2</sup>&nbsp;Shashidhar, S., Fourrier, C., Lozovskia, A., Wolf, T., Tur, G., &amp; Hakkani-Tür, D. (2025). <a href="https://arxiv.org/abs/2504.01833">YourBench: Easy custom evaluation sets for everyone.</a> <em>arXiv preprint</em>, arXiv:2504.01833.</p></div></div><p>The real significance of YourBench isn’t just that it’s incredibly convenient and technically impressive. It is the end of SOTA, and the rise of what I call SOYA: the State of Your Art.</p>
+<p>The insight is deceptively simple. Instead of asking “which model is best?”, we should be asking “which model is best at the specific things I actually need it to do, with the specific data and constraints I actually have?” The universal benchmark is revealed as the emperor with no clothes. What matters isn’t whether Claude beats GPT-5 on MMLU – it’s whether the model can handle your internal documentation, understand your domain terminology, and operate within your latency and cost constraints.</p>
+<p>This shift from SOTA to SOYA isn’t just semantic cleverness. It’s a fundamental reimagining of how we think about model selection and evaluation. Tools like YourBench have transformed custom evals from a luxury reserved to major labs to something you can run for the price of a Happy Meal.</p>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<hr>
+<p><strong>Recipe:</strong> Shakshuka</p>
+<ul>
+<li>1 tin decent chopped tomatoes</li>
+<li>1 onion, diced</li>
+<li>3 cloves garlic</li>
+<li>1 red pepper, diced</li>
+<li>1 tsp smoked paprika</li>
+<li>1 tsp cumin</li>
+<li>1/2 tsp cayenne pepper</li>
+<li>4-6 eggs</li>
+<li>Crumbled feta</li>
+<li>Some fresh coriander, to taste</li>
+</ul>
+<p>Sauté the onion until soft, add the garlic and spices. Adding the tomatoes and peppers, simmer until thick (20 minutes). Make wells, crack eggs into them. Cover and cook until eggs are just set. Top with feta and coriander. Serve with good bread.</p>
+<hr>
+</div></div><section id="the-democratisation-of-evals" class="level3">
+<h3 class="anchored" data-anchor-id="the-democratisation-of-evals">The democratisation of evals</h3>
+<p>The key implication, then, is that it is now at least in theory open to everyone to determine what their State of the Art is. This opens the door to much more meaningful evals. In the regulated pharmaceuticals and medtech industries, where I spend pretty much all my working life, a 0.3% incremental improvement in model performance is less relevant than what that 0.3% actually <em>is</em>. There’s an incommensurability of performance aspects here. I don’t care how much better your model is at solving Math Olympiad questions if it can’t determine whether something is a life-threatening adverse event or a mere nuisance. Generic benchmarks don’t help me. SOYA benchmarks might.</p>
+<p>The offshoot, of course, is that these evals map much better to actual business needs and actual data. The downside? They require an understanding of how to build a good eval. YourBench is brilliant, but it’s a tool for building evals, not for building <em>good</em> evals per se. It puts evals that were previously the preserve of well-funded labs into the hands of anyone with a credit card and a bit of time. But it’s up to the end user to make sure this doesn’t turn into giving toddlers a set of car keys and a bottle of bourbon.</p>
+</section>
+</section>
+<section id="the-soya-mindset-in-practice" class="level2">
+<h2 class="anchored" data-anchor-id="the-soya-mindset-in-practice">The SOYA mindset in practice</h2>
+<p>SOYA, then, is really primarily a mindset – one that requires us to first and foremost let go of some comfortable illusions. It means accepting that there is no “best model” in the abstract, only models that are better or worse for specific purposes. It means doing the hard work of articulating what you actually need from a model, rather than defaulting to whatever topped the latest leaderboard. When I talk to my clients about building an approach to evals, I typically want to explore the dimensions of model use – that is, their ‘definition of good’:</p>
+<ol type="1">
+<li>What are the three most common tasks this model will perform?</li>
+<li>What does failure look like for each of these tasks, and what are the consequences?</li>
+<li>What does your actual data look like, and how does it differ from the training distributions these models saw?</li>
+<li>What are your constraints on latency, cost and compute?</li>
+<li>What does “good enough” look like for your use case?</li>
+</ol>
+<p>Only after we’ve answered these questions do we start looking at models. And increasingly, the answer isn’t “use the SOTA model” but rather “use this smaller, specialised model that excels at your specific task, or this model that’s good enough but 10x cheaper, or this ensemble of models that handles your specific data distribution better”.</p>
+</section>
+<section id="some-inconvenient-truths" class="level2">
+<h2 class="anchored" data-anchor-id="some-inconvenient-truths">Some inconvenient truths</h2>
+<p>Let me be clear about what SOYA doesn’t mean. It doesn’t mean anything goes. It doesn’t mean evaluation is purely subjective. It doesn’t mean we abandon rigour. What it does mean, however, is acknowledging some uncomfortable truths:</p>
+<ol type="1">
+<li>Generic benchmarks capture something, but that something may not correlate with your specific needs. The more specialised those needs are (i.e.&nbsp;the further they are from simple agent driving and chat interactions), the less likely generic benchmarks are to be relevant.</li>
+<li>The “best” model for one use case may be catastrophically wrong for another. Context matters.</li>
+<li>Optimising for SOTA performance often means whatever you’re getting has been optimised for something other than your use case.</li>
+<li>Custom evaluation requires thought and effort, but that effort is increasingly cheap enough to be worth it. Thought, on the other hand, remains expensive. Bad evals give bad results.</li>
+</ol>
+<p>And that’s really the crux of it all: the choice for users is between accepting convenient, universal, cheap and wrong benchmarks, or investing a bit more time and effort into building evals that actually reflect their needs.</p>
+</section>
+<section id="how-not-to-suck" class="level2">
+<h2 class="anchored" data-anchor-id="how-not-to-suck">How not to suck</h2>
+<p>SOYA, if correctly used, can be a solution to the problem of generic evals that suffer from the same flaw as generic models: they try to be everything to everyone, and end up being mediocre at best for any specific purpose. But SOYA can also be misused. A poorly constructed custom eval can be worse than a generic benchmark, giving a false sense of security or leading to misguided model choices. And at this point, eval engineering as a discipline is sorely lacking. Even relatively sophisticated enterprise users have few specialists who really understand how to build good evals.</p>
+<p>One solution for this is the emergence of evals-as-a-service (EaaS) providers. But evals aren’t a technological exercise only – they require an understanding of the factors I mentioned above that characterise what success, or a good model, is for the particular client. SOYA is the Savile Row of AI: bespoke, tailored, and requiring expert craftsmanship. You can’t just pick it off the rack.</p>
+<p>The benchmark-industrial complex will be fine – there’s already talk about making models more ‘realistic’. This is generally a category error – benchmarks cannot be ‘realistic’ to all respects. What they can be is relevant. And relevance is in the eye of the beholder. No single benchmark can capture the specific requirements of pharmaceutical adverse event extraction, contract analysis and marketing copywriting simultaneously. The solution is to accept that benchmarks must be premised on ‘what good is’, not on a fool’s errand of bundling an ever growing list of tasks into a single eval suite.</p>
+</section>
+<section id="epilogue" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="epilogue">Epilogue</h2>
+<p>A year or so after graduating from Oxford, I was invited to sit for what was rather widely considered the time’s equivalent of Humanity’s Last Exam, but for humans: the Prize Fellowship Exam for All Souls. There isn’t enough space here to describe how weird and intense an experience it was. You sit a number of papers, typically two ‘general’ papers, two ‘specialist’ papers and an essay. The general papers have questions on just about everything. Here are three actual questions from <a href="https://www.asc.ox.ac.uk/past-examination-papers">this year’s general paper</a>:</p>
+<ul>
+<li>Invent a new punctuation mark!</li>
+<li>Does a pope matter?</li>
+<li>The organ has been considered the ‘king of instruments’. Is it?</li>
+</ul>
+<p>Then you get to choose your specialist papers – from seven disciplines (classics, economics, English literature, history, law, philosophy and politics). I picked a law paper, which was unsurprising considering I did that as an undergraduate subject, and a classics paper.<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a> I guess I must have done pretty okay, because of the hundred or so applicants that year (you had to generally get a top 1st in your undergraduate degree to even apply), I was fortunate enough to be in the final five invited for a <em>viva</em>, the last stage of the process. Which I bombed spectacularly enough that I wasn’t offered a fellowship, but that’s a story for another day.</p>
+<div class="no-row-height column-margin column-container"><div id="fn3"><p><sup>3</sup>&nbsp;My sincere apologies to the examiners for having to endure my Latin translation. I am not a classicist by training to begin with, but I am a special kind of bad at Latin in particular.</p></div><div id="fn4"><p><sup>4</sup>&nbsp;It took a lot of time and growth for me to learn to appreciate the value of depth. I remain incredibly curious and, in long retrospect, grateful for the experience – but also very aware that my depth is what makes my breadth work. Not winning a Prize Fellowship might have been one of my career-defining blessings in disguise – something that forced me to find a productive synthesis between a mind interested in just about everything and the needs of this world for professionals who can deliver focus, profound expertise and real-world impact. I am just so incredibly fortunate to have ultimately found a way to make this difficult balance work for me.</p></div></div><p>I mention this because with the benefit of hindsight, I see a lot of similarities between the Prize and the current SOTA mindset, mostly in its shortcomings. The Prize Fellowship Exam is the epitome of the modern ‘HLE-style’ SOTA eval: it identifies a small number of dazzling generalists, not necessarily those people who truly end up changing the world through commitment, depth and focus on their specific domain.<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a> But whatever we think of the value of that kind of modern day Renaissance person, it certainly isn’t what we need from our AI agents. What we need are models that excel in specific domains, for specific tasks, under specific constraints. Agents, unlike people, are interchangeable. We don’t need polymaths – we need specialist team players who can harness emergence for complexity.</p>
+<p>In the end, context isn’t an epiphenomenon – it’s what gives meaning to the abstractions of performance. Context is what turns that abstract brilliance into concrete, real-world impact. And with tools like YourBench, we’re finally seeing the era of SOYA – where users finally get the choice they deserve as to what matters to them, and what good means for their use case.</p>
+<p>So the next time someone breathlessly announces they’ve achieved new SOTA results, ask yourself: state of what art? For whom? Under what conditions?</p>
+<p>Because in the end, <strong>the only art that matters is yours</strong>.</p>
+
+
+</section>
+
+
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@misc{csefalvay2025,
+  author = {{Chris von Csefalvay}},
+  title = {SOYA - the Only Benchmark That Matters},
+  date = {2025-10-19},
+  doi = {10.59350/xqf22-csp59},
+  langid = {en-GB}
+}
+</code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-csefalvay2025" class="csl-entry quarto-appendix-citeas" role="listitem">
+Chris von Csefalvay. 2025. <span>“SOYA - the Only Benchmark That
+Matters.”</span> <a href="https://doi.org/10.59350/xqf22-csp59">https://doi.org/10.59350/xqf22-csp59</a>.
+</div></div></section></div></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<ol start="3" type="a">
+<li>Chris von Csefalvay, 2011–. <a href="disclaimer">Disclaimer</a></li>
+</ol>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>
