@@ -10,6 +10,8 @@ resources:
   - CNAME
 
 website:
+#  twitter-card: false   # <--- Ponlo en false
+#  open-graph: false     # <--- Ponlo en false
   title: "Rafael F. Navarro"
   description: "Rafael is a computational applied statistician working on Bayesian modeling"
   navbar:
