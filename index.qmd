@@ -16,7 +16,7 @@ about:
           text: Instagram
           url: https://www.instagram.com/chrisvoncsefalvay/
         - text: "{{< fa envelope >}} Email"
-          url: mailto:chris+website@chrisvoncsefalvay.com
+          url: mailto:rafonavarro@gmail.com
 
 image: img/portrait_2x3midres.png
 comments: false
