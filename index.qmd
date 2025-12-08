@@ -23,6 +23,6 @@ comments: false
 
 ## Bio
 
-I am an Applied Statistician specializing in Bayesian modeling and Time Series, with a strong focus on computational implementation and solving algorithmic challenges. Currently, I’m writing *Contrapunto Estadístico: Un curso de métodos bayesianos utilizando R y Stan*, a Spanish statistics coursebook peppered with musical references (which I swear are funny).
+I am an Applied Statistician specializing in Bayesian modeling and Time Series, with a strong focus on computational implementation and solving algorithmic challenges. Currently, I am writing *Contrapunto Estadístico: Un curso de métodos bayesianos utilizando R y Stan*, a Spanish statistics coursebook peppered with musical references (which I swear are funny).
 
 
