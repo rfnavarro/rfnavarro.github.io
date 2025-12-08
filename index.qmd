@@ -23,7 +23,7 @@ comments: false
 
 ## Bio
 
-I am an Applied Statistician specializing in Bayesian modeling and Time Series, focused heavily on computational implementation and solving algorithmiccoursebook peppered with musical references (which I swear are funny).
+I am an Applied Statistician specializing in Bayesian modeling and Time Series, with a strong focus on computational implementation and solving algorithmic challenges. Currently, I’m writing Contrapunto Estadístico, a Spanish Bayesian coursebook peppered with musical references (which I swear are funny).
 
 <!-- 
 I attended the University of Oxford for my undergraduate studies, graduating with a distinction (1st class), and returned there for my graduate studies. I also hold degrees from Cardiff and Robert Gordon University Aberdeen, and have studied at the University of Leiden under an Erasmus programme. Today, I am board certified in public health, a Fellow of the Royal Society for Public Health and a member of several other learned societies. I have also been elected a Senior Member of IEEE, where I am a member of the EMBS Technical Committee on Standards and the EMBS Technical Committee on Biomedical and Health Informatics.
