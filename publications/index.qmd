@@ -1,0 +1,8 @@
+---
+title: Papers
+---
+
+# Books
+
+- **Navarro, Rafael** (2025). Contrapunto Estadístico: Un curso de métodos bayesianos utilizando R y Stan...(in Progress).
+
